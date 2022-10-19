@@ -1,0 +1,15 @@
+.input{
+    width: 80%;
+    height: 5vh;
+    border-right: hidden;
+    font-weight: 500;
+}
+.add{
+    background-color: cornflowerblue;
+    color: white;
+    width: 20%;
+    height: 5vh;
+    font-size: 13px;
+    font-weight: 900;
+    border-left: hidden;
+}
