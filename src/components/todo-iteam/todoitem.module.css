@@ -1,0 +1,19 @@
+.wrapper{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+}
+input{
+    cursor: pointer;
+}
+.btn{
+    padding: 7px 12px;
+    background-color: dodgerblue;
+    border-color: black;
+    color: azure;
+    cursor: pointer;
+}
+.btns :nth-child(2){
+    background-color: red;
+}

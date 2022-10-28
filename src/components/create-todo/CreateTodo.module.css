@@ -3,6 +3,8 @@
     height: 5vh;
     border-right: hidden;
     font-weight: 500;
+    padding-left: 10px;
+    border-radius: 6px 0 0 6px;
 }
 .add{
     background-color: cornflowerblue;
@@ -12,4 +14,6 @@
     font-size: 13px;
     font-weight: 900;
     border-left: hidden;
+    border-radius: 0 6px 6px 0;
+    cursor: pointer;
 }
