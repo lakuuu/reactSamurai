@@ -1,44 +1,70 @@
-import { useState } from 'react';
-import './App.css';
-import CreateTodo from './components/create-todo/CreateTodo';
-import Header from "./components/header/Header"
-import TodoItem from './components/todo-iteam/TodoItem';
+import { useEffect, useState } from "react";
+import "./App.css";
+import CreateTodo from "./components/create-todo/CreateTodo";
+import Header from "./components/header/Header";
+import TodoItem from "./components/todo-iteam/TodoItem";
 
-
-const initialState = [
-  {text: "bye new mac", status: false, id:1},
-  {text: "bye new iphone", status: true, id:2},
-  {text: "bye new watch", status: true, id:3},
-  {text: "bye new iphone 11 pro max", status: false, id:4},
-]
+const initialState = JSON.parse(localStorage.getItem("todos")) || [];
 
 function App() {
-  const [todos, setTodos] = useState(initialState)
+  const [todos, setTodos] = useState(initialState);
 
+  useEffect(() => {
+    localStorage.setItem("todos", JSON.stringify(todos));
+  }, [todos]);
 
-const onDelete = (id) => { 
-  const newTodos = todos.filter((item) => item.id !==id)
-  console.log(newTodos)
-  setTodos(newTodos)
-}
+  const onDelete = (id) => {
+    const newTodos = todos.filter((item) => item.id !== id);
+    setTodos(newTodos);
+  };
 
-const onAddNewTodo = (str) => {
-  setTodos([ ...todos,{text: str, status: false, id: Date.now() }  ]  )
-}
+  const onAddNewTodo = (str) => {
+    setTodos([...todos, { text: str, status: false, id: Date.now() }]);
+  };
 
-const newTodos = todos.map((item) => <TodoItem id={item.id} text={item.text} status={item.status} onDelete={onDelete} />)
+  const onStatusChange = (id) => {
+    const newArr = todos.map((todo) => {
+      if (todo.id === id) {
+        return { ...todo, status: !todo.status };
+      }
+      return todo;
+    });
+    setTodos(newArr);
+  };
 
+  const onEdit = (id, newText) => {
+      const newArr = todos.map((todo) => {
+      if (todo.id === id) {
+        return { ...todo, text: newText };
+      }
+      return todo
+    })
+    setTodos(newArr)
+  }
+
+  const newTodos = todos.map((item) => (
+    <TodoItem
+      id={item.id}
+      text={item.text}
+      status={item.status}
+      onDelete={onDelete}
+      onStatus={onStatusChange}
+      setTodos={onAddNewTodo}
+      onEdit={onEdit}
+    />
+  ));
+
+  const todoDone = todos.reduce((akk, item) => {
+    return akk + Number(item.status);
+  }, 0);
   return (
     <div className="App">
-       
-        <Header todoLenght={4} todoDone={0}  />
-        <div className='content'>
-          <CreateTodo onAddNewTodo={onAddNewTodo} />
-          <div className="iteam">
-              {newTodos}
-           </div>      
-       </div>
-     </div>            
+      <Header todoLenght={todos.length} todoDone={todoDone} />
+      <div className="content">
+        <CreateTodo onAddNewTodo={onAddNewTodo} />
+        <div className="iteam">{newTodos}</div>
+      </div>
+    </div>
   );
 }
 
