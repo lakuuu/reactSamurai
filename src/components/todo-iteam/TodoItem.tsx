@@ -1,9 +1,18 @@
-import { useState } from "react"
+import React, { useState } from "react"
+// @ts-ignore
 import css from  "./todoitem.module.css"
 
 
+interface PropsType {
+    id: string;
+    text: string;
+    status: boolean;
+    onDelete: (id: string) => void;
+    onStatus: (id: string) => void;
+    onEdit: (id: string, t:string) => void
+}
 
-const TodoItem = (props) => {
+const TodoItem: React.FC<PropsType> = (props) => {
     const [isEdit, setEdit] = useState(false)
     const [inp, setInp] = useState(props.text)
 
@@ -20,7 +29,7 @@ const TodoItem = (props) => {
         setEdit(!isEdit)
     }
 
-    const submit = (e) => {
+    const submit = (e: any) => {
         e.preventDefault()
         props.onEdit(props.id, inp)
         setEdit(false)
